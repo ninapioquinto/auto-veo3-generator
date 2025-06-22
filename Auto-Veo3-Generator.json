@@ -1,0 +1,446 @@
+{
+  "name": "Veo3",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        0
+      ],
+      "id": "23fefec1-17d3-4560-b867-538cf404fefd",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appEuF9exwCyECCM2",
+          "mode": "list",
+          "cachedResultName": "Veo3",
+          "cachedResultUrl": "https://airtable.com/appEuF9exwCyECCM2"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblN0SQrT4w72bvKj",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appEuF9exwCyECCM2/tblN0SQrT4w72bvKj"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Prompt": "={{ $json.output }}",
+            "Status": "to-do"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Prompt",
+              "displayName": "Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Final Output",
+              "displayName": "Final Output",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "array",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": false
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        776,
+        0
+      ],
+      "id": "c98a2722-4085-475e-8df7-6143a5d6c750",
+      "name": "Airtable",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "G9hR4QlmDlhDEsmN",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Write a short, vivid scene of a nervous comedian performing at an intimate comedy club.\n\nMake it feel raw and cinematic, as if they\u2019re filming it themselves in real time. Return only the paragraph.",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=You are a storytelling engine designed to write gripping, cinematic video moments captured in third-person. Each output is a single paragraph, written as if it were the raw footage of a real person recording themselves in a hyper-realistic moment.\n\nYou specialize in writing scenes that feel documentary-style, immersive, and emotionally charged, using physical movement, ambient sound, and vivid background detail. The character is unnamed and always alone. The camera is held by the character themselves \u2014 think selfie-style storytelling \u2014 with the lens, light, and framing affecting the vibe of the scene.\n\nHere\u2019s what every scene you generate must include \u2014 but woven naturally into the paragraph (never labeled or formatted):\n\t\u2022\tOne line of dialogue, spoken aloud by the character \u2014 include how they say it.\n\t\u2022\tA clear physical gesture or motion (they look away, adjust the camera, step back, etc).\n\t\u2022\tLens/camera feel \u2014 wide-angle, handheld shake, soft focus, etc.\n\t\u2022\tThe lighting or time of day \u2014 blue dawn, harsh afternoon sun, dusk shadows, etc.\n\t\u2022\tThe natural soundscape \u2014 wind, birds, distant sirens, crackling fire, waves, traffic, etc.\n\t\u2022\tThe environment behind them \u2014 rooftops, neon-lit windows, crashing waves, alley walls, etc.\n\nTone: grounded, intimate, cinematic. Every word should feel like it belongs in a film.\nRestrictions: No names. No other characters. No stage directions. No screen text.\nFormat: Return only the paragraph. No headings, no labels, no metadata \u2014 just the scene."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        400,
+        0
+      ],
+      "id": "b246564f-1136-4968-aa06-a46ce6f0533e",
+      "name": "Prompt Generator"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "claude-3-7-sonnet-20250219",
+          "cachedResultName": "Claude 3.7 Sonnet"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        488,
+        220
+      ],
+      "id": "80c9889c-ce1b-48d7-bfc6-aa0b0bdff8e4",
+      "name": "Anthropic Chat Model1",
+      "credentials": {
+        "anthropicApi": {
+          "id": "heNsRuelhV9cPEzv",
+          "name": "Claude"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://queue.fal.run/fal-ai/veo3",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "={{ $json.fields.Prompt }}"
+            }
+          ]
+        },
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        996,
+        0
+      ],
+      "id": "a78f963c-d927-4cc1-b0c7-5032240f0001",
+      "name": "Generate Video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ofQWkjssOcJBogqH",
+          "name": "FAL AI"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1216,
+        0
+      ],
+      "id": "1288b279-3d03-4276-954e-22210738a886",
+      "name": "Wait",
+      "webhookId": "7de71e5e-a436-46b7-b95e-00c9de75zzzd"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "base": {
+          "__rl": true,
+          "value": "appEuF9exwCyECCM2",
+          "mode": "list",
+          "cachedResultName": "Veo3",
+          "cachedResultUrl": "https://airtable.com/appEuF9exwCyECCM2"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblN0SQrT4w72bvKj",
+          "mode": "list",
+          "cachedResultName": "Table 1",
+          "cachedResultUrl": "https://airtable.com/appEuF9exwCyECCM2/tblN0SQrT4w72bvKj"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "id": "={{ $('Airtable').item.json.id }}",
+            "Status": "done",
+            "Final Output": "={{ $json.video.url }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": false
+            },
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": true,
+              "removed": true
+            },
+            {
+              "id": "Prompt",
+              "displayName": "Prompt",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "Final Output",
+              "displayName": "Final Output",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "typecast": false
+        }
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        1660,
+        0
+      ],
+      "id": "41f857d2-e2ad-45de-b9b6-b14b51a37a27",
+      "name": "Log Video URL",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "G9hR4QlmDlhDEsmN",
+          "name": "Airtable account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://queue.fal.run/fal-ai/veo3/requests/96733836-5c44-4ff3-b426-0e34f72f6e7b",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {
+          "batching": {
+            "batch": {
+              "batchSize": 1
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1436,
+        0
+      ],
+      "id": "aaf353ce-b0d0-44a9-9410-f57bf676d3a1",
+      "name": "Get Video",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ofQWkjssOcJBogqH",
+          "name": "FAL AI"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Generate Video": [
+      {
+        "json": {
+          "status": "IN_QUEUE",
+          "value": "appEuF9exwCyECCM2",
+          "response_url": "https://queue.fal.run/fal-ai/veo3/requests/34252c13-8bbb-42cb-8118-e0f12f364cc8",
+          "status_url": "https://queue.fal.run/fal-ai/veo3/requests/34252c13-8bbb-42cb-8118-e0f12f364cc8/status",
+          "cancel_url": "https://queue.fal.run/fal-ai/veo3/requests/34252c13-8bbb-42cb-8118-e0f12f364cc8/cancel",
+          "logs": null,
+          "metrics": {},
+          "queue_position": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prompt Generator",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Airtable": {
+      "main": [
+        [
+          {
+            "node": "Generate Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Prompt Generator",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prompt Generator": {
+      "main": [
+        [
+          {
+            "node": "Airtable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Video": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Get Video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Video": {
+      "main": [
+        [
+          {
+            "node": "Log Video URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ceb1dc3a-94f8-4da9-bf51-09e63e03e000",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "00c5d06e9a2e9af0bdfc9c1e8f894c404d4db78a60c6a307fd7ef94634692e0f"
+  },
+  "id": "rnElQyV0mpuAAAEf",
+  "tags": []
+}
