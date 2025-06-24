@@ -28,10 +28,10 @@ This flow is perfect for:
 
 ##  Integrations
 
-- **Anthropic Claude 3.7 Sonnet (via n8n LangChain node)**
-- **Airtable (Prompt Storage + Output Logging)**
-- **FAL Veo 3 API (Text-to-Video Generation)**
-- **n8n (Automation Orchestration)**
+- **Anthropic Claude 3.7 Sonnet**
+- **Airtable**
+- **FAL Veo 3 API**
+- **n8n**
 
 ---
 
@@ -54,22 +54,9 @@ This flow is perfect for:
 
 ---
 
-##  Setup Notes
-
-1. **Claude API Access**: Make sure you have valid Anthropic API credentials.
-2. **FAL Account**: Get a FAL API key and ensure your endpoint is correct (`/fal-ai/veo3`).
-3. **Airtable**: Create a table with fields: `Prompt`, `Status`, and `Final Output`.
-4. **Import to n8n**:
-   - Go to your n8n instance.
-   - Import the `Auto Veo 3 Generator.json` file.
-   - Connect your credentials: Claude, Airtable, and HTTP Auth for FAL.
-5. **Schedule the Flow** as needed using the `Schedule Trigger` node.
-
----
-
 ##  Created by Nina Pioquinto
 
 Automation Systems Engineer  
-Helping creators and teams build smart, scalable content systems using AI automation and visual workflows.
+Helping businesses scale smart systems with ai automation and crm solutions.
 
 > Let’s build your custom system
